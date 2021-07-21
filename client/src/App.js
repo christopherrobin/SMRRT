@@ -86,6 +86,9 @@ class App extends Component {
 				
 				<Paper style={{ margin: '1.5em auto', padding: '1em', maxWidth: '1200px', width: '90%' }}>
 					<h2>Smart Contract Example</h2>
+					{
+						this.state.accounts[0] ? <div>Welcome back, <span className='highlight'>{this.state.accounts[0]}</span></div> : null
+					}
 					<p>On page load the <strong>storageValue</strong> will be <strong>0</strong>. Clicking the button
 					below will run the example function in <strong>App.js</strong>. Confirm the transaction in MetaMask
 					and if successful the <strong>storageValue</strong> will be <strong>5</strong>.</p>
@@ -106,8 +109,7 @@ class App extends Component {
 				</div>
 				<div>
 					The stored value is
-
-					<h1 style={{ marginTop: 0 }}><span className="dot">{this.state.storageValue}</span></h1>
+					<div className="background-circle">{this.state.storageValue}</div>
 				</div>
 			</Paper>
 
