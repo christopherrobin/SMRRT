@@ -1,10 +1,12 @@
+@import "../src/variables.scss";
+
 .App {
 	text-align: center;
 
 	.background-circle {
 		height: 2em;
 		width: 2em;
-		background-color: #1ABC9C;
+		background-color: $truffle-teal;
 		color: #fff;
 		border-radius: 50%;
 		padding-top: .3em;
@@ -13,7 +15,7 @@
 	}
 
 	.highlight {
-		color: #1ABC9C;
+		color: $truffle-teal;
 		font-weight: bold;
 	}
 
