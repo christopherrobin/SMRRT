@@ -16,6 +16,7 @@ Check out my other React related starter packs at https://github.com/christopher
  - Starter implementation of React-Router
  - SASS example implementations including variables
  - React-Scripts upgrade and audit
+ - Solidity Version Upgrades/fixes
 
 ### :beer: Donate
 
