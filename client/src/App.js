@@ -105,8 +105,9 @@ class App extends Component {
 					</Button>
 				</div>
 				<div>
-					The stored value is:
-					<h1 style={{ marginTop: 0 }}>{this.state.storageValue}</h1>
+					The stored value is
+
+					<h1 style={{ marginTop: 0 }}><span class="dot">{this.state.storageValue}</span></h1>
 				</div>
 			</Paper>
 
