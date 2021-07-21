@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from 'react';
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 
@@ -10,16 +10,16 @@ import truffleLogo from "./truffle-logo.svg";
 
 import "./App.scss";
 
-class App extends Component {
-	state = {
-		storageValue: 0,
-		web3: null,
-		accounts: null,
-		contract: null,
-		functionIsLoading: false,
-	};
+const App = () => {
+  const [accounts, setAccounts] = useState([]);
+  const [storageValue, setStorageValue] = useState(0);
+  // const [web3, setWeb3] = useState([]);
+  const [contract, setContract] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-	componentDidMount = async () => {
+  useEffect(() => {
+    // Create an scoped async function in the hook
+    async function initializeState() {
 		try {
 			// Get network provider and web3 instance.
 			const web3 = await getWeb3();
@@ -37,19 +37,24 @@ class App extends Component {
 
 			// Set web3, accounts, and contract to the state, and then proceed with an
 			// example of interacting with the contract's methods.
-			this.setState({ web3, accounts, contract: instance });
+			setAccounts(accounts);
+			// setWeb3(web3);
+			setContract(instance);
 		} catch (error) {
 			// Catch any errors for any of the above operations.
-			alert(
-				`Failed to load web3, accounts, or contract. Check console for details.`,
+			console.info(
+				`Failed to load web3, accounts, or contract.`,
 			);
 			console.error(error);
 		}
-	};
+    }
+    // Execute the created function directly
+    initializeState();
+  }, []);
 
-	runExample = async () => {
-		this.setState({ functionIsLoading: true });
-		const { accounts, contract } = this.state;
+	const runExample = async () => {
+		setLoading(true);
+		// const { accounts, contract } = state;
 
 		// Stores a given value, 5 by default.
 		await contract.methods.set(5).send({ from: accounts[0] });
@@ -58,22 +63,11 @@ class App extends Component {
 		const response = await contract.methods.get().call();
 
 		// Update state with the result.
-		this.setState({ storageValue: response });
-		this.setState({ functionIsLoading: false });
+		setStorageValue(response);
+		setLoading(false);
 	};
 
-	render() {
-
-		if (!this.state.web3) {
-			return (
-				<div style={{ marginTop: '20vh', textAlign: 'center' }}>
-					<div style={{ marginBottom: '1em' }}><CircularProgress color="primary" /></div>
-					<div>Loading Web3, accounts, and contract...</div>
-				</div>
-			);
-		}
-
-		return (
+	return (
 			<div className="App">
 
 				<div>
@@ -86,7 +80,7 @@ class App extends Component {
 				
 				<Paper style={{ margin: '1.5em auto', padding: '2em 1em 1em 1em', maxWidth: '1200px', width: '90%' }}>
 					{
-						this.state.accounts[0] ? <div>Welcome back, <span className='highlight'>{this.state.accounts[0]}</span></div> : null
+						accounts[0] ? <div>Welcome back, <span className='highlight'>{accounts[0]}</span></div> : null
 					}
 					<hr />
 					<h2>Smart Contract Example</h2>
@@ -99,24 +93,23 @@ class App extends Component {
 						variant="outlined"
 						color="primary"
 						size="large"
-						onClick={this.runExample}
+						onClick={runExample}
 						disableElevation
 					>
 						{
-							this.state.functionIsLoading ?
+							loading ?
 								<CircularProgress /> : <span><strong>Run Example</strong></span>
 						}
 					</Button>
 				</div>
 				<div>
 					The stored value is
-					<div className="background-circle">{this.state.storageValue}</div>
+					<div className="background-circle">{storageValue}</div>
 				</div>
 			</Paper>
 
 			</div>
-		);
-	}
+	);
 }
 
 export default App;
