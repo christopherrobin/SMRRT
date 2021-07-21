@@ -1,11 +1,12 @@
 {
-  "name": "truffle-material",
+  "name": "smrrt",
   "version": "0.1.0",
   "private": false,
   "dependencies": {
     "@material-ui/core": "^4.11.1",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "node-sass": "^6.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",

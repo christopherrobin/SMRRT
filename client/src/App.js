@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import truffleLogo from "./truffle-logo.svg";
 
-import "./App.css";
+import "./App.scss";
 
 class App extends Component {
 	state = {
