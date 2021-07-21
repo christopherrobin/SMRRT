@@ -7,17 +7,15 @@ SMRRT (pronounced "Smart") is a starter pack for using SASS, Material-UI, React,
 
 SMRRT is based on React Truffle Box found at https://github.com/truffle-box/react-box with a few tweaks. The default package includes support and examples for use of Material-UI, React-Router, Hooks, and SASS.
 
+Check out my other React related starter packs at https://github.com/christopherrobin
+
 ## Core differences
  - Upgrade for React/React-DOM to version 17.0.1
  - The example App is refactored to use React Hooks
- - Custom Material-UI boilerplate added
- - Simple implementation of React-Router
+ - Customizable Material-UI theme added
+ - Starter implementation of React-Router
  - SASS example implementations including variables
  - React-Scripts upgrade and audit
-
-Check out my other React related starter packs at https://github.com/christopherrobin
-
-<hr />
 
 ### :beer: Donate
 
