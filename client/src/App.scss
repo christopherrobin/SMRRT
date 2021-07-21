@@ -13,10 +13,15 @@
 	}
 
 	.highlight {
-		background-color: #1ABC9C;
-		color: #fff;
-		padding: .3em;
-		font-style: italic;
+		color: #1ABC9C;
+		font-weight: bold;
+	}
+
+	hr {
+		background-color: #dfdfdf;
+		height: 1px;
+		border: none;
+		margin-top: 1em;
 	}
 
 }

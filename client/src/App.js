@@ -67,7 +67,7 @@ class App extends Component {
 		if (!this.state.web3) {
 			return (
 				<div style={{ marginTop: '20vh', textAlign: 'center' }}>
-					<div style={{ marginBottom: '1em' }}><CircularProgress color="secondary" /></div>
+					<div style={{ marginBottom: '1em' }}><CircularProgress color="primary" /></div>
 					<div>Loading Web3, accounts, and contract...</div>
 				</div>
 			);
@@ -84,11 +84,12 @@ class App extends Component {
 					<em>Your Truffle Box is installed and ready.</em> &#128640;
 				</p>
 				
-				<Paper style={{ margin: '1.5em auto', padding: '1em', maxWidth: '1200px', width: '90%' }}>
-					<h2>Smart Contract Example</h2>
+				<Paper style={{ margin: '1.5em auto', padding: '2em 1em 1em 1em', maxWidth: '1200px', width: '90%' }}>
 					{
 						this.state.accounts[0] ? <div>Welcome back, <span className='highlight'>{this.state.accounts[0]}</span></div> : null
 					}
+					<hr />
+					<h2>Smart Contract Example</h2>
 					<p>On page load the <strong>storageValue</strong> will be <strong>0</strong>. Clicking the button
 					below will run the example function in <strong>App.js</strong>. Confirm the transaction in MetaMask
 					and if successful the <strong>storageValue</strong> will be <strong>5</strong>.</p>
