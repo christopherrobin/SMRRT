@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import UserTransactions from './UserTransactions';
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 
@@ -11,11 +12,13 @@ import truffleLogo from "./truffle-logo.svg";
 import "./App.scss";
 
 const App = () => {
-  const [accounts, setAccounts] = useState([]);
-  const [storageValue, setStorageValue] = useState(0);
-  // const [web3, setWeb3] = useState([]);
-  const [contract, setContract] = useState([]);
-  const [loading, setLoading] = useState(false);
+	const [accounts, setAccounts] = useState([]);
+	const [storageValue, setStorageValue] = useState(0);
+	const [web3, setWeb3] = useState([]);
+	const [contract, setContract] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [userTransactions, setUserTransactions] = useState([]);
+	const [walletBalance, setWalletBalance] = useState([]);
 
   useEffect(() => {
     // Create an scoped async function in the hook
@@ -26,6 +29,9 @@ const App = () => {
 
 			// Use web3 to get the user's accounts.
 			const accounts = await web3.eth.getAccounts();
+			// console.log(web3.eth);
+			const walletBalance = await web3.eth.getBalance(accounts[0]);
+			setWalletBalance(walletBalance);
 
 			// Get the contract instance.
 			const networkId = await web3.eth.net.getId();
@@ -38,8 +44,35 @@ const App = () => {
 			// Set web3, accounts, and contract to the state, and then proceed with an
 			// example of interacting with the contract's methods.
 			setAccounts(accounts);
-			// setWeb3(web3);
+			setWeb3(web3);
 			setContract(instance);
+
+			async function getUserTransactions () {
+				if (web3 !== []) {
+					let latestBlock = await web3.eth.getBlock("latest");
+					for (let i = 0; i < latestBlock.number; i++) {
+						let block = await web3.eth.getBlock(i);
+						if (block && block.transactions) {
+							for (let txHash of block.transactions) {
+								let tx = await web3.eth.getTransaction(txHash);
+								if (tx.from === accounts[0]) {
+									// Create new object to append to state
+									const txToAdd = {};
+									txToAdd[tx.blockHash] = [tx];
+									const accumulatedTransactions = Object.assign(userTransactions, txToAdd);
+
+									// Append object to state
+									setUserTransactions(accumulatedTransactions);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// console.log(blockChecker());
+			getUserTransactions();
+
 		} catch (error) {
 			// Catch any errors for any of the above operations.
 			console.info(
@@ -54,7 +87,6 @@ const App = () => {
 
 	const runExample = async () => {
 		setLoading(true);
-		// const { accounts, contract } = state;
 
 		// Stores a given value, 5 by default.
 		await contract.methods.set(5).send({ from: accounts[0] });
@@ -80,9 +112,8 @@ const App = () => {
 				
 				<Paper style={{ margin: '1.5em auto', padding: '2em 1em 1em 1em', maxWidth: '1200px', width: '90%' }}>
 					{
-						accounts[0] ? <div>Welcome back, <span className='highlight'>{accounts[0]}</span></div> : null
+						accounts[0] ? <div>Welcome back, <span className='highlight'>{accounts[0]}</span><br />Wallet balance: {walletBalance}<hr /></div> : null
 					}
-					<hr />
 					<h2>Smart Contract Example</h2>
 					<p>On page load the <strong>storageValue</strong> will be <strong>0</strong>. Clicking the button
 					below will run the example function in <strong>App.js</strong>. Confirm the transaction in MetaMask
@@ -107,6 +138,10 @@ const App = () => {
 					<div className="background-circle">{storageValue}</div>
 				</div>
 			</Paper>
+
+			{
+				userTransactions !== [] ? <UserTransactions userTransactions={userTransactions}/> : null
+			}
 
 			</div>
 	);
