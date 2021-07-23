@@ -1,30 +1,28 @@
 // Create react component
 import React from 'react';
 import { map } from 'lodash';
+import Paper from '@material-ui/core/Paper';
 
 const UserTransactions = props => {
-	// console.log(props.userTransactions);
-	const { userTransactions } = props;
-	console.log(userTransactions);
+	console.log(props.userTransactions.length);
 	return (
 		<div>
-			<h2 style={{ textAlign: 'left'}}>User Transactions</h2>
-			{
-				map(userTransactions, (transaction, key) => {
-					console.log(transaction);
-				})
-			}
-			{
-				userTransactions.map(data => { 
-					return (
-						<div key={data.id}>
-							<p>{data.description}</p>
-							<p>{data.amount}</p>
-						</div>
-					);
+			<Paper>
+				{
+					map(props.userTransactions, (transaction) => {
+						return (
+							<div style={{ padding: '1em' }} key={transaction.blockHash}>
+								<p>Block Number: {transaction.blockNumber}</p>
+								<p>Block Hash: {transaction.blockHash}</p>
+								<p>Hash: {transaction.hash}</p>
+								<p>Gas: {transaction.gas}</p>
+								<p>Gas Price: {transaction.gasPrice}</p>
+								<hr />
+							</div>
+						)
+					})
 				}
-				)
-			}
+			</Paper>
 		</div>
 	)
 };
